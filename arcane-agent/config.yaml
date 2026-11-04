@@ -1,7 +1,7 @@
 name: "Arcane-Agent"
 description: "Arcane-Agent for Home Assistant"
 url: "https://github.com/traukainehm/homeassistant-arcane-agent"
-version: "0.20.0"
+version: "2.17.3"
 slug: "arcane-agent"
 init: false
 stdin: true
