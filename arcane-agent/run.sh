@@ -11,9 +11,21 @@ if [[ -z "${MANAGER_API_URL}" || -z "${AGENT_TOKEN}" ]]; then
     exit 1
 fi
 
-bashio::log.info "Starting Arcane Agent in direct mode on port 3553"
-AGENT_MODE=true \
-AGENT_TOKEN="${AGENT_TOKEN}" \
-MANAGER_API_URL="${MANAGER_API_URL}" \
-PORT=3553 \
-exec ./arcane-agent
+MODE="$(bashio::config 'mode')"
+ENVIRONMENT="$(bashio::config 'environment')"
+LISTEN="$(bashio::config 'listen')"
+
+export AGENT_TOKEN MANAGER_API_URL
+[[ -n "${ENVIRONMENT}" ]] && export ENVIRONMENT
+
+if [[ "${MODE}" == "edge" ]]; then
+    bashio::log.info "Starting Arcane Agent in edge mode (poll)"
+    export EDGE_AGENT=true EDGE_TRANSPORT=poll
+else
+    bashio::log.info "Starting Arcane Agent in direct mode on port 3553"
+    export AGENT_MODE=true PORT=3553
+    [[ -n "${LISTEN}" ]] && export LISTEN
+fi
+mkdir -p /app/data
+cd /app
+exec /arcane-agent

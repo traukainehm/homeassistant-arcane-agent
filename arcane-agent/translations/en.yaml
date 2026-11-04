@@ -8,3 +8,15 @@ configuration:
     name: Arcane Agent Token
     description: >-
       Token generated for this environment in Arcane
+  mode:
+    name: Agent mode
+    description: >-
+      direct listens on port 3553 for the manager to connect; edge polls the manager (no inbound port needed)
+  environment:
+    name: Environment
+    description: >-
+      Environment name (for example production)
+  listen:
+    name: Listen address
+    description: >-
+      Optional listen address for direct mode (for example 127.0.0.1)
